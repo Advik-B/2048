@@ -20,13 +20,17 @@ FULLSCREEN = False
 
 WINDOW_TITLE = '2048 by Advik'
 FPS = 60
-STARTUP_TEXT = "Welcome to 2048"
+STARTUP_TEXT = "2048"
 STARTUP_SUBTEXT = dedent(
     """
     A game by Advik, for Pratibha
     To distract you from your work :)
     """
 )
+STARTUP_SUBTEXT_FONT = "Bunjee.ttf"
+STARTUP_TEXT_FONT = "Bunjee.ttf"
+
+FONT_DIR = "fonts"
 
 
 # Colors
