@@ -5,6 +5,7 @@ import pygame
 import settings
 from grid_helper import Grid
 from startup import StartupAnimation
+from controls_hint import ControlsHint
 
 pygame.init()
 
@@ -45,6 +46,7 @@ def play_music():
     pygame.mixer.music.play(start=random.randint(0, int(music_length)))
     MUSIC_PLAYING = True
     grid.enabled = True
+    controls_hint.enabled = True
 
 def mute_music():
     global MUSIC_PLAYING
@@ -144,6 +146,12 @@ startup_animation = StartupAnimation(
     on_done=play_music,
 )
 
+controls_hint = ControlsHint(
+    window_surface,
+    settings.DISPLAY_SIZE,
+    pos=(0, 0)
+)
+
 start_time = pygame.time.get_ticks()
 # grid.move_animate(10, 10, duration=1)
 
@@ -183,7 +191,9 @@ while is_running:
 
     grid.update()
     startup_animation.update()
+    controls_hint.update()
 
     grid.draw()
+    controls_hint.draw()
     startup_animation.draw()
     pygame.display.update()
