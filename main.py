@@ -68,40 +68,35 @@ BOUNDING_BOX = pygame.Rect(0, 0, *settings.DISPLAY_SIZE)
 OLD_POS = (0, 0)
 MUSIC_PLAYING = True
 
+def mute_music():
+    global MUSIC_PLAYING
+    if MUSIC_PLAYING:
+        pygame.mixer.music.pause()
+        MUSIC_PLAYING = False
+    else:
+        pygame.mixer.music.unpause()
+        MUSIC_PLAYING = True
 
 def game_event_processor(event: pygame.event.Event):
+    """
+
+    :type event: pygame.event.Event
+    """
     global is_running
     global grid
     global MUSIC_PLAYING
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_UP:
-            grid.move_animate(0, -1)
-        if event.key == pygame.K_DOWN:
-            grid.move_animate(0, 1)
-        if event.key == pygame.K_LEFT:
-            grid.move_animate(-1, 0)
-        if event.key == pygame.K_RIGHT:
-            grid.move_animate(1, 0)
+        if event.key == pygame.K_ESCAPE:
+            is_running = False
 
-        if event.key == pygame.K_m:
+        elif event.key == pygame.K_r:
+            grid.matrix = grid.logic.reset()
+
+        elif event.key == pygame.K_m:
             # Mute/unmute the music
-            if MUSIC_PLAYING:
-                pygame.mixer.music.pause()
-                MUSIC_PLAYING = False
-            else:
-                pygame.mixer.music.unpause()
-                MUSIC_PLAYING = True
+            mute_music()
 
     if event.type == pygame.KEYUP:
-
-        if event.key == pygame.K_UP:
-            grid.move_animate(0, -1)
-        if event.key == pygame.K_DOWN:
-            grid.move_animate(0, 1)
-        if event.key == pygame.K_LEFT:
-            grid.move_animate(-1, 0)
-        if event.key == pygame.K_RIGHT:
-            grid.move_animate(1, 0)
 
         if event.key == pygame.K_ESCAPE:
             is_running = False
