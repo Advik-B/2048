@@ -34,3 +34,12 @@ KEY_BINDINGS = {
     "left": [K_LEFT, K_a],
     "right": [K_RIGHT, K_d],
 }
+
+GRID_MOVEMENT_DURATION = 1
+GRID_MOVEMENT_INTENSITY = 20
+CHANCE_OF_SPAWN = 30
+CHANCE_OF_SPAWN_NUMBERS = {
+    2: 89,
+    4: 20,
+    8: 1,
+}
