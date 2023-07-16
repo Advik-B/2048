@@ -16,6 +16,7 @@ class Grid:
             color: tuple = (255, 255, 255),
             line_width: int = 1,
             text_color: tuple = (255, 100, 255),
+            surface: pygame.surface = None
     ):
         self.font: pygame.font.SysFont = None
         self.duration: int = None
@@ -37,12 +38,13 @@ class Grid:
         )
         self.game_over = False
         self.enabled = False
+        self.surface = surface
 
-    def draw_on(self, surface: pygame.surface):
+    def draw(self):
         if not self.enabled:
             return
         if self.game_over:
-            surface.blit(
+            self.surface.blit(
                 self.game_over_text,
                 (
                     self.pos[0] + self.size[0] * self.square_size / 2,
@@ -53,7 +55,7 @@ class Grid:
         # First, draw the grid lines
         for i in range(self.size[0] + 1):
             pygame.draw.line(
-                surface,
+                self.surface,
                 self.color,
                 (self.pos[0] + i * self.square_size, self.pos[1]),
                 (self.pos[0] + i * self.square_size, self.pos[1] + self.square_size * self.size[1]),
@@ -62,7 +64,7 @@ class Grid:
 
         for i in range(self.size[1] + 1):
             pygame.draw.line(
-                surface,
+                self.surface,
                 self.color,
                 (self.pos[0], self.pos[1] + i * self.square_size),
                 (self.pos[0] + self.square_size * self.size[0], self.pos[1] + i * self.square_size),
@@ -100,7 +102,7 @@ class Grid:
                         self.pos[0] + i * self.square_size + self.square_size / 2,
                         self.pos[1] + j * self.square_size + self.square_size / 2
                     )
-                    surface.blit(text_surface, text_rect)
+                    self.surface.blit(text_surface, text_rect)
 
 
 
