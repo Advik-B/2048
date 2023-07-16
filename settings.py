@@ -32,7 +32,9 @@ STARTUP_SUBTEXT = dedent(
 # STARTUP_SUBTEXT = dedent(
 #     """
 #     A stupid ass game
-#     That Took my bordem away
+#     that i work on for some reason
+
+#    This took a whopping 18 hours to make
 #     """
 # )
 CONTROLS_TEXT = "Controls"
