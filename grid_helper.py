@@ -199,5 +199,3 @@ class Grid:
         :return:
         """
         return self.matrix[pos[0]][pos[1]]
-
-
