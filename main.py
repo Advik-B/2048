@@ -62,6 +62,8 @@ def game_event_processor(event: pygame.event.Event):
     global is_running
     global grid
     global MUSIC_PLAYING
+    if not grid.enabled:
+        return
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_ESCAPE:
             is_running = False
