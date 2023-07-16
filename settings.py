@@ -24,7 +24,7 @@ STARTUP_TEXT = "2048"
 STARTUP_SUBTEXT = dedent(
     """
     A game by Advik, for Pratibha
-    To distract you from your work :)
+    To distract you from your work ;)
     """
 )
 STARTUP_SUBTEXT_FONT = "Averia.ttf"
