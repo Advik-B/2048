@@ -35,9 +35,10 @@ STARTUP_SUBTEXT = dedent(
 )
 STARTUP_SUBTEXT_FONT = "Averia.ttf"
 STARTUP_TEXT_FONT = "Bungee.ttf"
+STARTUP_KEYBOARD_SOUND = "keyboard.mp3"
 
 FONT_DIR = "fonts"
-
+SOUND_DIR = "audio"
 
 # Colors
 BACKGROUND_COLOR = (250, 248, 239)
