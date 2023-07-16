@@ -1,3 +1,4 @@
+import itertools
 import pygame
 
 from matrix_logic import GameLogic
@@ -13,6 +14,8 @@ class Grid:
             line_width: int = 1,
             text_color: tuple = (255, 100, 255),
     ):
+        self.font: pygame.font.SysFont = None
+        self.duration: int = None
         self.size = size
         self.pos = pos
         self.square_size = square_size
@@ -118,17 +121,13 @@ class Grid:
                     self.pos[1] + (self.goto[1] - self.pos[1]) * (time_delta / self.duration)
                 )
 
-        self.update_font()
-        if self.logic.is_full():
-            self.game_over = True
 
     def update_font(self):
         # Find out the maximum number in the grid
         max_num = 0
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
-                if self.matrix[j][i] > max_num:
-                    max_num = self.matrix[j][i]
+        for i, j in itertools.product(range(self.size[0]), range(self.size[1])):
+            if self.matrix[j][i] > max_num:
+                max_num = self.matrix[j][i]
 
         # Find out the number of digits in the maximum number
         num_digits = len(str(max_num))
@@ -137,7 +136,26 @@ class Grid:
         # Now, create a font object
         self.font = pygame.font.SysFont('Arial', font_size)
 
+    def change_matrix(self, new_matrix: list[list[int]]):
+        self.matrix = new_matrix
+        if self.logic.is_full():
+            self.game_over = True
 
+        self.matrix = self.logic.place_random_number()
+        self.update_font()
+
+
+    def move_up(self):
+        self.change_matrix(self.logic.move_up())
+
+    def move_down(self):
+        self.change_matrix(self.logic.move_down())
+
+    def move_left(self):
+        self.change_matrix(self.logic.move_left())
+
+    def move_right(self):
+        self.change_matrix(self.logic.move_right())
 
 
     def move_animate(self, *new_pos: tuple, duration: int = 1):
