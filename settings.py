@@ -40,6 +40,7 @@ STARTUP_KEYBOARD_SOUND = "keyboard.mp3"
 
 FONT_DIR = "fonts"
 SOUND_DIR = "audio"
+IMAGE_DIR = "images"
 
 # Colors
 BACKGROUND_COLOR = (250, 248, 239)
