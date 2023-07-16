@@ -3,10 +3,9 @@ import settings
 import time
 
 class StartupAnimation:
-    def __init__(self, surface: pygame.surface, size: tuple, color: tuple, pos: tuple):
+    def __init__(self, surface: pygame.surface, size: tuple, pos: tuple):
         self.surface = surface
         self.size = size # Screen size
-        self.color = color # Color of the animation
         self.pos = pos
         # A typing animation
         self.head_text = settings.STARTUP_TEXT
@@ -16,8 +15,8 @@ class StartupAnimation:
         self.body_font_size = int(self.size[1] / 20)
         self.head_font_size = int(self.size[1] / 10)
         self.body_font = pygame.font.Font(f"{settings.FONT_DIR}/{settings.STARTUP_SUBTEXT_FONT}", self.body_font_size)
-        self.head_text_surface = self.head_font.render(self.head_text, True, self.color)
-        self.body_text_surface = self.body_font.render(self.body_text, True, self.color)
+        self.head_text_surface = self.head_font.render(self.head_text, True, settings.STARTUP_TEXT_COLOR)
+        self.body_text_surface = self.body_font.render(self.body_text, True, settings.STARTUP_SUBTEXT_COLOR)
         self.until_index = 0
 
     def draw(self):
@@ -41,13 +40,9 @@ class StartupAnimation:
         if self.until_index < len(self.body_text):
             self.until_index += 1
             self.body_text_surface = self.body_font.render(
-                f"{self.body_text[:self.until_index]}_", True, self.color
+                f"{self.body_text[:self.until_index]}{'_' if self.until_index != len(self.body_text) else ''}",
+                True, settings.STARTUP_SUBTEXT_COLOR
             )
-            # If the text is fully typed, remove the underscore
-            if self.until_index == len(self.body_text):
-                self.body_text_surface = self.body_font.render(
-                    f"{self.body_text[:self.until_index]}", True, self.color
-                )
             time.sleep(0.1)
             return True
         time.sleep(1)
@@ -59,13 +54,13 @@ if __name__ == "__main__":
     print("This file is not meant to be run directly. Please run main.py instead.")
     pygame.init()
     screen = pygame.display.set_mode(settings.DISPLAY_SIZE, pygame.RESIZABLE)
-    startup_animation = StartupAnimation(screen, settings.DISPLAY_SIZE, (255, 255, 255), (0, 0))
+    startup_animation = StartupAnimation(screen, settings.DISPLAY_SIZE, (0, 0))
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 break
-        screen.fill((0, 0, 0))
+        screen.fill(settings.BACKGROUND_COLOR)
         running = startup_animation.update()
         startup_animation.draw()
         pygame.display.update()
