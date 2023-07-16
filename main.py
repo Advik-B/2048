@@ -181,8 +181,9 @@ while is_running:
 
     window_surface.fill(settings.BACKGROUND_COLOR)
 
-    grid.draw()
     grid.update()
-    startup_animation.draw()
     startup_animation.update()
+    
+    grid.draw()
+    startup_animation.draw()
     pygame.display.update()
