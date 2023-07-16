@@ -3,8 +3,7 @@ import settings
 import time
 
 class StartupAnimation:
-    def __init__(self, surface: pygame.surface, size: tuple, color: tuple, pos: tuple,
-                 clock: pygame.time.Clock):
+    def __init__(self, surface: pygame.surface, size: tuple, color: tuple, pos: tuple):
         self.surface = surface
         self.size = size # Screen size
         self.color = color # Color of the animation
@@ -19,8 +18,6 @@ class StartupAnimation:
         self.body_font = pygame.font.Font(f"{settings.FONT_DIR}/{settings.STARTUP_SUBTEXT_FONT}", self.body_font_size)
         self.head_text_surface = self.head_font.render(self.head_text, True, self.color)
         self.body_text_surface = self.body_font.render(self.body_text, True, self.color)
-        self.clock = clock
-        self.start_time = self.clock.get_time()
         self.until_index = 0
 
     def draw(self):
@@ -43,32 +40,33 @@ class StartupAnimation:
         # Animate the typing
         if self.until_index < len(self.body_text):
             self.until_index += 1
-            self.body_text_surface = self.body_font.render(self.body_text[:self.until_index], True, self.color)
+            self.body_text_surface = self.body_font.render(
+                f"{self.body_text[:self.until_index]}_", True, self.color
+            )
+            # If the text is fully typed, remove the underscore
+            if self.until_index == len(self.body_text):
+                self.body_text_surface = self.body_font.render(
+                    f"{self.body_text[:self.until_index]}", True, self.color
+                )
             time.sleep(0.1)
-            return False
-        return True
-
-
-
-
-
-
+            return True
+        time.sleep(1)
+        return False
 
 
 
 if __name__ == "__main__":
     print("This file is not meant to be run directly. Please run main.py instead.")
     pygame.init()
-    clock = pygame.time.Clock()
     screen = pygame.display.set_mode(settings.DISPLAY_SIZE, pygame.RESIZABLE)
-    startup_animation = StartupAnimation(screen, settings.DISPLAY_SIZE, (255, 255, 255), (0, 0), clock)
-    while True:
-        clock.tick(60)
+    startup_animation = StartupAnimation(screen, settings.DISPLAY_SIZE, (255, 255, 255), (0, 0))
+    running = True
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 break
         screen.fill((0, 0, 0))
-        startup_animation.update()
+        running = startup_animation.update()
         startup_animation.draw()
         pygame.display.update()
 
