@@ -43,9 +43,9 @@ print(grid.matrix)
 grid.matrix = [
     # Only Minecraft numbers
     [1, 2, 1, 2],
-    [16, 32, 16, 32],
-    [64, 128, 64, 128],
-    [256, 512, 256, 512],
+    [2, 1, 2, 1],
+    [1, 2, 1, 2],
+    [2, 1, 1, 1],
 ]
 print(grid.matrix)
 
@@ -84,6 +84,20 @@ while is_running:
             if event.key == pygame.K_SPACE:
                 OLD_POS = grid.pos
                 grid.move_animate(1, 0, duration=1)
+
+            if event.key == pygame.K_UP:
+                grid.logic.move_up()
+
+            if event.key == pygame.K_DOWN:
+                grid.logic.move_down()
+
+            if event.key == pygame.K_LEFT:
+                grid.logic.move_left()
+
+            if event.key == pygame.K_RIGHT:
+                grid.logic.move_right()
+                print(grid.matrix)
+
 
 
         if event.type == pygame.KEYUP:
