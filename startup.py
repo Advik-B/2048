@@ -15,7 +15,7 @@ class StartupAnimation:
         self.body_font_size = int(self.size[1] / 20)
         self.head_font_size = int(self.size[1] / 10)
         self.body_font = pygame.font.Font(f"{settings.FONT_DIR}/{settings.STARTUP_SUBTEXT_FONT}", self.body_font_size)
-        self.head_text_surface = self.head_font.render("", True, settings.STARTUP_TEXT_COLOR)
+        self.head_text_surface = self.head_font.render(settings.STARTUP_TEXT, True, settings.STARTUP_TEXT_COLOR)
         self.body_text_surface = self.body_font.render("", True, settings.STARTUP_SUBTEXT_COLOR)
         self.until_index = 0
         pygame.mixer.music.load(f"{settings.SOUND_DIR}/{settings.STARTUP_KEYBOARD_SOUND}")
