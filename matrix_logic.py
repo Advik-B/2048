@@ -35,6 +35,24 @@ class GameLogic:
 
         return self.matrix
 
+    def spawn_customised(self, chance_of_numbers:dict):
+        """
+        Place a random number (given by chance_of_numbers) at an empty location on the board.
+        :param chance_of_numbers: {2: 90, 4: 10}, {2: 80, 4: 20}, {2: 70, 4: 20, 8: 10} etc.
+        """
+        if self.is_full():
+            return self.matrix
+
+        while True:
+            row = random.randint(0, 3)
+            col = random.randint(0, 3)
+            if self.matrix[row][col] == 0:
+                self.matrix[row][col] = random.choices(list(chance_of_numbers.keys()), weights=list(chance_of_numbers.values()))[0]
+                break
+
+        return self.matrix
+
+
     def move_left(self) -> None:
         """
         Move the numbers to the left and merge adjacent numbers if they are equal.
