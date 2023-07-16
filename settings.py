@@ -21,18 +21,20 @@ FULLSCREEN = False
 WINDOW_TITLE = '2048 by Advik'
 FPS = 60
 STARTUP_TEXT = "2048"
-# STARTUP_SUBTEXT = dedent(
-#     """
-#     A game by Advik, for Pratibha
-#     To distract you from your work
-#     """
-# )
 STARTUP_SUBTEXT = dedent(
     """
-    A stupid ass game
-    That Took my bordem away
+    A game by Advik, for Pratibha
+    To distract you from your work
+    
+    This took a whopping 18 hours to make
     """
 )
+# STARTUP_SUBTEXT = dedent(
+#     """
+#     A stupid ass game
+#     That Took my bordem away
+#     """
+# )
 CONTROLS_TEXT = "Controls"
 STARTUP_SUBTEXT_FONT = "Averia.ttf"
 STARTUP_TEXT_FONT = "Bungee.ttf"
