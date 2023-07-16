@@ -162,6 +162,7 @@ MUSIC_PLAYING = True
 
 GRID_POS = grid.pos
 
+img = pygame.image.load("images/_A.png")
 while is_running:
     clock.tick(settings.FPS)
     for event in pygame.event.get():
@@ -186,6 +187,7 @@ while is_running:
             print(grid.size)
 
         game_event_processor(event)
+        controls_hint.event_processor(event)
 
     window_surface.fill(settings.BACKGROUND_COLOR)
 
@@ -196,4 +198,5 @@ while is_running:
     grid.draw()
     controls_hint.draw()
     startup_animation.draw()
+
     pygame.display.update()
