@@ -23,10 +23,25 @@ class Grid:
 
         self.matrix = [[0 for _ in range(self.size[0])] for _ in range(self.size[1])]
         self.update_font()
-        self.logic = GameLogic(self)
+        self.logic = GameLogic(self.matrix)
+        self.game_over_text = self.font.render(
+            "Game Over",
+            True,
+            self.text_color
+        )
+        self.game_over = False
 
 
     def draw_on(self, surface: pygame.surface):
+        if self.game_over:
+            surface.blit(
+                self.game_over_text,
+                (
+                    self.pos[0] + self.size[0] * self.square_size / 2,
+                    self.pos[1] + self.size[1] * self.square_size / 2
+                )
+            )
+
         # First, draw the grid lines
         for i in range(self.size[0] + 1):
             pygame.draw.line(
@@ -104,6 +119,8 @@ class Grid:
                 )
 
         self.update_font()
+        if self.logic.is_full():
+            self.game_over = True
 
     def update_font(self):
         # Find out the maximum number in the grid
