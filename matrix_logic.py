@@ -19,7 +19,7 @@ class GameLogic:
         """
         return all(0 not in row for row in self.matrix)
 
-    def place_random_number(self) -> None | list[list[int, int, int, int]]:
+    def spawn(self) -> None | list[list[int, int, int, int]]:
         """
         Place a random number (2 or 4) at an empty location on the board.
         """
