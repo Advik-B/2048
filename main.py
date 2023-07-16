@@ -41,10 +41,11 @@ grid = Grid(
 
 print(grid.matrix)
 grid.matrix = [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [0, 2, 1, 0],
-    [0, 2, 0, 0]
+    # Only Minecraft numbers
+    [1, 2, 1, 2],
+    [16, 32, 16, 32],
+    [64, 128, 64, 128],
+    [256, 512, 256, 512],
 ]
 print(grid.matrix)
 
