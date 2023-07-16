@@ -3,7 +3,7 @@ import settings
 import time
 
 class StartupAnimation:
-    def __init__(self, surface: pygame.surface, size: tuple, pos: tuple):
+    def __init__(self, surface: pygame.surface, size: tuple, pos: tuple, on_done: callable = None):
         self.surface = surface
         self.size = size # Screen size
         self.pos = pos
@@ -15,13 +15,17 @@ class StartupAnimation:
         self.body_font_size = int(self.size[1] / 20)
         self.head_font_size = int(self.size[1] / 10)
         self.body_font = pygame.font.Font(f"{settings.FONT_DIR}/{settings.STARTUP_SUBTEXT_FONT}", self.body_font_size)
-        self.head_text_surface = self.head_font.render(self.head_text, True, settings.STARTUP_TEXT_COLOR)
-        self.body_text_surface = self.body_font.render(self.body_text, True, settings.STARTUP_SUBTEXT_COLOR)
+        self.head_text_surface = self.head_font.render("", True, settings.STARTUP_TEXT_COLOR)
+        self.body_text_surface = self.body_font.render("", True, settings.STARTUP_SUBTEXT_COLOR)
         self.until_index = 0
         pygame.mixer.music.load(f"{settings.SOUND_DIR}/{settings.STARTUP_KEYBOARD_SOUND}")
         pygame.mixer.music.play()
+        self.done = False
+        self.on_done: callable = on_done
 
     def draw(self):
+        if self.done:
+            return
         self.surface.blit(
             self.head_text_surface,
             (
@@ -38,6 +42,8 @@ class StartupAnimation:
         )
 
     def update(self):
+        if self.done:
+            return False
         # Animate the typing
         if self.until_index < len(self.body_text):
             self.until_index += 1
@@ -47,7 +53,10 @@ class StartupAnimation:
             )
             time.sleep(0.1)
             return True
-        pygame.mixer.music.stop()
+
+        self.done = True
+        if self.on_done is not None:
+            self.on_done()
         time.sleep(1)
         return False
 
