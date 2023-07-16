@@ -41,11 +41,10 @@ grid = Grid(
 
 print(grid.matrix)
 grid.matrix = [
-    # Only Minecraft numbers
-    [1, 2, 1, 2],
-    [2, 1, 2, 1],
-    [1, 2, 1, 2],
-    [2, 1, 1, 1],
+    [0, 2, 4, 0],
+    [4, 0, 0, 2],
+    [0, 4, 2, 0],
+    [2, 0, 0, 4]
 ]
 print(grid.matrix)
 
@@ -54,6 +53,32 @@ start_time = pygame.time.get_ticks()
 
 BOUNDING_BOX = pygame.Rect(0, 0, *settings.DISPLAY_SIZE)
 OLD_POS = (0, 0)
+
+def game_event_processor(event: pygame.event.Event):
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_UP:
+            grid.move_animate(0, -1)
+        if event.key == pygame.K_DOWN:
+            grid.move_animate(0, 1)
+        if event.key == pygame.K_LEFT:
+            grid.move_animate(-1, 0)
+        if event.key == pygame.K_RIGHT:
+            grid.move_animate(1, 0)
+
+    if event.type == pygame.KEYUP:
+
+        if event.key == pygame.K_UP:
+            grid.move_animate(0, -1)
+        if event.key == pygame.K_DOWN:
+            grid.move_animate(0, 1)
+        if event.key == pygame.K_LEFT:
+            grid.move_animate(-1, 0)
+        if event.key == pygame.K_RIGHT:
+            grid.move_animate(1, 0)
+
+        if event.key == pygame.K_ESCAPE:
+            is_running = False
+
 while is_running:
     clock.tick(settings.FPS)
     for event in pygame.event.get():
@@ -77,30 +102,7 @@ while is_running:
             )
             print(grid.size)
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                is_running = False
-
-            if event.key == pygame.K_SPACE:
-                OLD_POS = grid.pos
-                grid.move_animate(1, 0, duration=1)
-
-            if event.key == pygame.K_UP:
-                grid.logic.move_up()
-
-            if event.key == pygame.K_DOWN:
-                grid.logic.move_down()
-
-            if event.key == pygame.K_LEFT:
-                grid.logic.move_left()
-
-            if event.key == pygame.K_RIGHT:
-                grid.logic.move_right()
-                print(grid.matrix)
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                grid.move_animate(*OLD_POS, duration=1)
+        game_event_processor(event)
 
     window_surface.fill((0, 0, 0))
     grid.draw_on(window_surface)
