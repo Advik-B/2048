@@ -1,6 +1,9 @@
 import itertools
+import random
+
 import pygame
 
+import settings
 from matrix_logic import GameLogic
 
 
@@ -33,7 +36,6 @@ class Grid:
             self.text_color
         )
         self.game_over = False
-
 
     def draw_on(self, surface: pygame.surface):
         if self.game_over:
@@ -141,7 +143,9 @@ class Grid:
         if self.logic.is_full():
             self.game_over = True
 
-        self.matrix = self.logic.spawn()
+        # Spawn a new number in a random position (settings.CHANCE_OF_SPAWN)
+        if random.randint(0, 100) >= settings.CHANCE_OF_SPAWN:
+            self.logic.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
         self.update_font()
 
 
