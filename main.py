@@ -133,7 +133,8 @@ grid = Grid(
     square_size=100,
     color=settings.GRID_COLOR,
     line_width=6,
-    text_color=settings.TEXT_COLOR
+    text_color=settings.TEXT_COLOR,
+    surface=window_surface,
 )
 
 startup_animation = StartupAnimation(
@@ -180,7 +181,7 @@ while is_running:
 
     window_surface.fill(settings.BACKGROUND_COLOR)
 
-    grid.draw_on(window_surface)
+    grid.draw()
     grid.update()
     startup_animation.draw()
     startup_animation.update()
