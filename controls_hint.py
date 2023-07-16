@@ -57,8 +57,8 @@ class ControlsHint:
         self.surface.blit(
             self.head_text_surface,
             (
-                self.pos[0] + self.size[0] / 2 - self.head_text_surface.get_width() / 2,
-                self.pos[1] + self.size[1] / 2 - self.head_text_surface.get_height() / 2 + 135
+                self.pos[0] + self.size[0] / 2 - self.head_text_surface.get_width() / 2 + 200,
+                self.pos[1] + self.size[1] / 2 - self.head_text_surface.get_height() - 300
             )
         )
         # Make a rectangle for the controls
@@ -189,15 +189,47 @@ class ControlsHint:
                 10 + self.a.get_height() + 10 + self.d.get_height() + 10 + self.w.get_height() + 10 + self.down.get_height() / 2 - self.small_font.get_height() / 2
             )
         )
-        self.surface.blit(
-            self.controls_menu,
+
+        self.controls_menu.blit(
+            self.mute,
             (
-                self.pos[0] + self.size[0] / 2 - self.controls_menu.get_width()  / 2,
-                self.pos[1] + self.size[1] / 2 - self.controls_menu.get_height() / 2 + 500,
+                10,
+                10 + self.a.get_height() + 10 + self.d.get_height() + 10 + self.w.get_height() + 10 + self.s.get_height() + 10
+            )
+        )
+        self.controls_menu.blit(
+            self.small_font.render("Mute", True, settings.STARTUP_TEXT_COLOR),
+            (
+                10 + self.mute.get_width() + 10,
+                10 + self.a.get_height() + 10 + self.d.get_height() + 10 + self.w.get_height() + 10 + self.s.get_height() + 10 + self.mute.get_height() / 2 - self.small_font.get_height() / 2
+            )
+        )
+
+        # THe reset button is inlined with the mute button
+        self.controls_menu.blit(
+            self.reset,
+            (
+                10 + self.mute.get_width() + 10 + self.small_font.size("Mute")[0] + 10,
+                10 + self.a.get_height() + 10 + self.d.get_height() + 10 + self.w.get_height() + 10 + self.s.get_height() + 10
+            )
+        )
+        self.controls_menu.blit(
+            self.small_font.render("Reset", True, settings.STARTUP_TEXT_COLOR),
+            (
+                10 + self.mute.get_width() + 10 + self.small_font.size("Mute")[0] + 10 + self.reset.get_width() + 10,
+                10 + self.a.get_height() + 10 + self.d.get_height() + 10 + self.w.get_height() + 10 + self.s.get_height() + 10 + self.reset.get_height() / 2 - self.small_font.get_height() / 2
             )
         )
 
 
+        # Make the controls menu appear right below the controls text
+        self.surface.blit(
+            self.controls_menu,
+            (
+                self.pos[0] + self.size[0] / 2 - self.head_text_surface.get_width() / 2 + 150,
+                self.pos[1] + self.size[1] / 2 - self.head_text_surface.get_height() - 200
+            )
+        )
 
 
     def update(self):
