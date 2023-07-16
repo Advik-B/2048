@@ -183,7 +183,7 @@ while is_running:
 
     grid.update()
     startup_animation.update()
-    
+
     grid.draw()
     startup_animation.draw()
     pygame.display.update()
