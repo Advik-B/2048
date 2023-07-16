@@ -1,7 +1,8 @@
 import pygame
 import settings
-
+import random
 from grid_helper import Grid
+import threading
 
 pygame.init()
 
@@ -47,14 +48,27 @@ grid.matrix = [
     [2, 0, 0, 4]
 ]
 print(grid.matrix)
+def play_music():
+    music = pygame.mixer.Sound("music/lofi.mp3")
+    # Get the legnth of the music
+    music_length = music.get_length()
+    # Load the music
+    pygame.mixer.music.load("music/lofi.mp3")
+    # Play the music at a random position
+
+    pygame.mixer.music.play(start=random.randint(0, int(music_length)))
 
 start_time = pygame.time.get_ticks()
 # grid.move_animate(10, 10, duration=1)
 
 BOUNDING_BOX = pygame.Rect(0, 0, *settings.DISPLAY_SIZE)
 OLD_POS = (0, 0)
+MUSIC_PLAYING = True
 
 def game_event_processor(event: pygame.event.Event):
+    global is_running
+    global grid
+    global MUSIC_PLAYING
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_UP:
             grid.move_animate(0, -1)
@@ -64,6 +78,16 @@ def game_event_processor(event: pygame.event.Event):
             grid.move_animate(-1, 0)
         if event.key == pygame.K_RIGHT:
             grid.move_animate(1, 0)
+
+        if event.key == pygame.K_m:
+            # Mute/unmute the music
+            if MUSIC_PLAYING:
+                pygame.mixer.music.pause()
+                MUSIC_PLAYING = False
+            else:
+                pygame.mixer.music.unpause()
+                MUSIC_PLAYING = True
+
 
     if event.type == pygame.KEYUP:
 
@@ -79,6 +103,7 @@ def game_event_processor(event: pygame.event.Event):
         if event.key == pygame.K_ESCAPE:
             is_running = False
 
+threading.Thread(target=play_music).run()
 while is_running:
     clock.tick(settings.FPS)
     for event in pygame.event.get():
