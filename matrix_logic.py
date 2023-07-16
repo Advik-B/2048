@@ -1,9 +1,10 @@
-from grid_helper import Grid
+# from grid_helper import Grid
+# from grid_helper import Grid
 
 
 class GameLogic:
 
-    def __init__(self, grid: Grid):
+    def __init__(self, grid: "Grid"):
         self.g_matrix = grid.matrix
         self.g_size = grid.size
 
