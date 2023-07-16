@@ -44,12 +44,12 @@ grid = Grid(
 
 
 def play_music():
-    music = pygame.mixer.Sound("music/lofi.mp3")
-    # Get the legnth of the music
+    music = pygame.mixer.Sound("audio/lofi.mp3")
+    # Get the legnth of the audio
     music_length = music.get_length()
-    # Load the music
-    pygame.mixer.music.load("music/lofi.mp3")
-    # Play the music at a random position
+    # Load the audio
+    pygame.mixer.music.load("audio/lofi.mp3")
+    # Play the audio at a random position
 
     pygame.mixer.music.play(start=random.randint(0, int(music_length)))
 
@@ -88,7 +88,7 @@ def game_event_processor(event: pygame.event.Event):
             grid.matrix = grid.logic.reset()
 
         elif event.key == pygame.K_m:
-            # Mute/unmute the music
+            # Mute/unmute the audio
             mute_music()
 
         elif event.key in settings.KEY_BINDINGS["up"]:
