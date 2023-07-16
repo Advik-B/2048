@@ -1,10 +1,10 @@
 import random
-import threading
 
 import pygame
 
 import settings
 from grid_helper import Grid
+from startup import StartupAnimation
 
 pygame.init()
 
@@ -32,18 +32,9 @@ is_running = True
 # The squares should be spaced evenly
 
 
-grid = Grid(
-    size=(4, 4),
-    pos=(100, 100),
-    square_size=100,
-    color=settings.GRID_COLOR,
-    line_width=6,
-    text_color=settings.TEXT_COLOR
-)
-
-
-
 def play_music():
+    global MUSIC_PLAYING
+    print("Starting music...")
     music = pygame.mixer.Sound("audio/lofi.mp3")
     # Get the legnth of the audio
     music_length = music.get_length()
@@ -52,14 +43,8 @@ def play_music():
     # Play the audio at a random position
 
     pygame.mixer.music.play(start=random.randint(0, int(music_length)))
-
-
-start_time = pygame.time.get_ticks()
-# grid.move_animate(10, 10, duration=1)
-
-BOUNDING_BOX = pygame.Rect(0, 0, *settings.DISPLAY_SIZE)
-OLD_POS = (0, 0)
-MUSIC_PLAYING = True
+    MUSIC_PLAYING = True
+    grid.enabled = True
 
 def mute_music():
     global MUSIC_PLAYING
@@ -69,9 +54,6 @@ def mute_music():
     else:
         pygame.mixer.music.unpause()
         MUSIC_PLAYING = True
-
-GRID_POS = grid.pos
-
 def game_event_processor(event: pygame.event.Event):
     """
 
@@ -142,8 +124,33 @@ def game_event_processor(event: pygame.event.Event):
         if event.key == pygame.K_ESCAPE:
             is_running = False
 
-threading.Thread(target=play_music).run()
-print(list(settings.KEY_BINDINGS.values()))
+
+grid = Grid(
+    size=(4, 4),
+    pos=(100, 100),
+    square_size=100,
+    color=settings.GRID_COLOR,
+    line_width=6,
+    text_color=settings.TEXT_COLOR
+)
+
+startup_animation = StartupAnimation(
+    window_surface,
+    settings.DISPLAY_SIZE,
+    pos=(0, 0),
+    on_done=play_music,
+)
+
+start_time = pygame.time.get_ticks()
+# grid.move_animate(10, 10, duration=1)
+
+BOUNDING_BOX = pygame.Rect(0, 0, *settings.DISPLAY_SIZE)
+OLD_POS = (0, 0)
+MUSIC_PLAYING = True
+
+
+GRID_POS = grid.pos
+
 while is_running:
     clock.tick(settings.FPS)
     for event in pygame.event.get():
@@ -170,6 +177,9 @@ while is_running:
         game_event_processor(event)
 
     window_surface.fill(settings.BACKGROUND_COLOR)
+
     grid.draw_on(window_surface)
     grid.update()
+    startup_animation.draw()
+    startup_animation.update()
     pygame.display.update()
