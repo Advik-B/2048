@@ -1,3 +1,4 @@
+import itertools
 import random
 
 class GameLogic:
@@ -16,17 +17,14 @@ class GameLogic:
         """
         Check if the game board is full.
         """
-        for row in self.matrix:
-            if 0 in row:
-                return False
-        return True
+        return all(0 not in row for row in self.matrix)
 
-    def place_random_number(self) -> None:
+    def place_random_number(self) -> None | list[list[int, int, int, int]]:
         """
         Place a random number (2 or 4) at an empty location on the board.
         """
         if self.is_full():
-            return
+            return self.matrix
 
         while True:
             row = random.randint(0, 3)
@@ -34,6 +32,8 @@ class GameLogic:
             if self.matrix[row][col] == 0:
                 self.matrix[row][col] = random.choice([2, 4])
                 break
+
+        return self.matrix
 
     def move_left(self) -> None:
         """
@@ -50,6 +50,7 @@ class GameLogic:
             temp_row = [num for num in row if num != 0]  # Remove zeros
             temp_row += [0] * (4 - len(temp_row))  # Pad with zeros
             row[:] = temp_row
+        return self.matrix
 
     def move_right(self) -> None:
         """
@@ -62,6 +63,9 @@ class GameLogic:
         for row in self.matrix:
             row.reverse()
 
+        return self.matrix
+
+
     def move_up(self) -> None:
         """
         Move the numbers up and merge adjacent numbers if they are equal.
@@ -70,6 +74,7 @@ class GameLogic:
         self.transpose()
         self.move_left()
         self.transpose()
+        return self.matrix
 
     def move_down(self) -> None:
         """
@@ -79,6 +84,7 @@ class GameLogic:
         self.transpose()
         self.move_right()
         self.transpose()
+        return self.matrix
 
     def transpose(self) -> None:
         """
@@ -95,10 +101,11 @@ class GameLogic:
                 print(num, end="\t")
             print()
 
-    def reset(self) -> None:
+    def reset(self) -> list[list[int, int, int, int]]:
         """
         Reset the game board to its initial state.
         """
-        for i in range(4):
-            for j in range(4):
-                self.matrix[i][j] = 0
+        for i, j in itertools.product(range(4), range(4)):
+            self.matrix[i][j] = 0
+
+        return self.matrix
