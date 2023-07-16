@@ -141,7 +141,7 @@ class Grid:
         if self.logic.is_full():
             self.game_over = True
 
-        self.matrix = self.logic.place_random_number()
+        self.matrix = self.logic.spawn()
         self.update_font()
 
 
@@ -165,6 +165,8 @@ class Grid:
         :param duration: time in seconds
         :return:
         """
+        if self.pos == new_pos:
+            return
         self.goto = new_pos
         self.start_time = pygame.time.get_ticks()
         self.duration = duration * 1000
