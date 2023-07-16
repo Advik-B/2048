@@ -43,6 +43,9 @@ class Grid:
         self.line_width = line_width
         self.goto = self.pos
 
+        self.grid = [[0 for _ in range(self.size[0])] for _ in range(self.size[1])]
+
+
     def draw_on(self, surface: pygame.surface):
         pygame.draw.rect(
             surface, self.color,
@@ -119,8 +122,26 @@ class Grid:
 
     def __repr__(self):
         return f"Grid(size={self.size}, pos={self.pos}, square_size={self.square_size}, color={self.color}, line_width={self.line_width})"
-    
 
+
+    def set_square(self, pos: tuple, value: int):
+        """
+        Set the value of a square
+        :param pos: tuple of position
+        :param value: value to set
+        :return:
+        """
+        self.grid[pos[0]][pos[1]] = value
+
+    def get_square(self, pos: tuple) -> int:
+        """
+        Get the value of a square
+        :param pos: tuple of position
+        :return:
+        """
+        return self.grid[pos[0]][pos[1]]
+
+    
 
 
 
