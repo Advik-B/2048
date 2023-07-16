@@ -13,10 +13,27 @@ game.place_random_number()
 for i in range(4):
     game.place_random_number()
 
+def help_msg():
+    print("Welcome to 2048!")
+    print("A game made by @Advik-B for Pratibha to distract her from her studies :)")
+    print("Use the following keys to play:")
+    print("u - move up")
+    print("d - move down")
+    print("l - move left")
+    print("r - move right")
+    print("h - help")
+    print("Press Ctrl+C to exit the game")
+
+help_msg()
 game.display()
 
+
 while True:
-    move = input("Enter move: ")
+    try:
+        move = input("Enter move: ")
+    except KeyboardInterrupt:
+        break
+
     if move == "u":
         game.move_up()
     elif move == "l":
@@ -25,6 +42,9 @@ while True:
         game.move_down()
     elif move == "r":
         game.move_right()
+    elif move == "h":
+        help_msg()
+        continue
     else:
         print("Invalid move!")
         continue
