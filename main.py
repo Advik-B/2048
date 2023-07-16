@@ -36,18 +36,11 @@ grid = Grid(
     size=(4, 4),
     pos=(100, 100),
     square_size=100,
-    color=(255, 255, 255),
-    line_width=6
+    color=settings.GRID_COLOR,
+    line_width=6,
+    text_color=settings.TEXT_COLOR
 )
 
-print(grid.matrix)
-grid.matrix = [
-    [0, 2, 4, 0],
-    [4, 0, 0, 2],
-    [0, 4, 2, 0],
-    [2, 0, 0, 4]
-]
-print(grid.matrix)
 
 
 def play_music():
@@ -102,7 +95,11 @@ def game_event_processor(event: pygame.event.Event):
             grid.move_up()
             # Animate the movement of the grid using the move_animate method with GRID_POS as the old position
             # 5 pixel up
-            grid.move_animate(GRID_POS[0], GRID_POS[1] - 5, duration=1)
+            grid.move_animate(
+                GRID_POS[0],
+                GRID_POS[1] - settings.GRID_MOVEMENT_INTENSITY,
+                duration=settings.GRID_MOVEMENT_DURATION
+            )
 
 
 
@@ -110,29 +107,43 @@ def game_event_processor(event: pygame.event.Event):
             grid.move_down()
             # Animate the movement of the grid using the move_animate method with GRID_POS as the old position
             # 5 pixel down
-            grid.move_animate(GRID_POS[0], GRID_POS[1] + 5, duration=1)
+            grid.move_animate(
+                GRID_POS[0],
+                GRID_POS[1] + settings.GRID_MOVEMENT_INTENSITY,
+                duration=settings.GRID_MOVEMENT_DURATION
+            )
 
         elif event.key in settings.KEY_BINDINGS["left"]:
             grid.move_left()
             # Animate the movement of the grid using the move_animate method with GRID_POS as the old position
             # 5 pixel left
-            grid.move_animate(GRID_POS[0] - 5, GRID_POS[1], duration=1)
+            grid.move_animate(
+                GRID_POS[0] - settings.GRID_MOVEMENT_INTENSITY,
+                GRID_POS[1], duration=settings.GRID_MOVEMENT_DURATION
+            )
+
 
         elif event.key in settings.KEY_BINDINGS["right"]:
             grid.move_right()
-            grid.move_animate(GRID_POS[0] + 5, GRID_POS[1], duration=1)
+            grid.move_animate(
+                GRID_POS[0] + settings.GRID_MOVEMENT_INTENSITY,
+                GRID_POS[1], duration=settings.GRID_MOVEMENT_DURATION
+            )
 
     if event.type == pygame.KEYUP:
 
-        if event.key in settings.KEY_BINDINGS.values():
+        FLATTENED_KEY_BINDINGS = [item for sublist in list(settings.KEY_BINDINGS.values()) for item in sublist]
+
+
+        if event.key in FLATTENED_KEY_BINDINGS:
             # Animate the grid back to its original position
-            grid.move_animate(GRID_POS[0], GRID_POS[1], duration=1)
+            grid.move_animate(GRID_POS[0], GRID_POS[1], duration=settings.GRID_MOVEMENT_DURATION)
 
         if event.key == pygame.K_ESCAPE:
             is_running = False
 
-
 threading.Thread(target=play_music).run()
+print(list(settings.KEY_BINDINGS.values()))
 while is_running:
     clock.tick(settings.FPS)
     for event in pygame.event.get():
