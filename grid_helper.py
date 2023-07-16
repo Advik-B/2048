@@ -36,8 +36,11 @@ class Grid:
             self.text_color
         )
         self.game_over = False
+        self.enabled = False
 
     def draw_on(self, surface: pygame.surface):
+        if not self.enabled:
+            return
         if self.game_over:
             surface.blit(
                 self.game_over_text,
@@ -112,7 +115,8 @@ class Grid:
         Called every frame, to update the grid if needed
         :return:
         """
-
+        if not self.enabled:
+            return
         if self.pos != self.goto:
             time_delta = pygame.time.get_ticks() - self.start_time
             if time_delta > self.duration:
