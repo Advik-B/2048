@@ -21,10 +21,16 @@ FULLSCREEN = False
 WINDOW_TITLE = '2048 by Advik'
 FPS = 60
 STARTUP_TEXT = "2048"
+# STARTUP_SUBTEXT = dedent(
+#     """
+#     A game by Advik, for Pratibha
+#     To distract you from your work
+#     """
+# )
 STARTUP_SUBTEXT = dedent(
     """
-    A game by Advik, for Pratibha
-    To distract you from your work ;)
+    A stupid ass game
+    That Took my bordem away
     """
 )
 STARTUP_SUBTEXT_FONT = "Averia.ttf"
@@ -37,7 +43,7 @@ FONT_DIR = "fonts"
 BACKGROUND_COLOR = (250, 248, 239)
 GRID_COLOR = (187, 173, 160)
 TEXT_COLOR = (119, 110, 101)
-STARTUP_COLOR = (250, 248, 239)
+STARTUP_TEXT_COLOR = (250, 248, 239)
 STARTUP_SUBTEXT_COLOR = (119, 110, 101)
 GAME_OVER_COLOR = (238, 228, 218)
 
