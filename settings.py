@@ -13,10 +13,10 @@ from pygame.locals import (
 )
 from textwrap import dedent
 
-DISPLAY_SIZE = (600, 800)
-VSYNC = True
+DISPLAY_SIZE = (600, 1000)
+VSYNC = False
 ALLOW_RESIZE = False
-FULLSCREEN = False
+FULLSCREEN = True
 
 WINDOW_TITLE = '2048 by Advik'
 FPS = 60
@@ -64,7 +64,7 @@ KEY_BINDINGS = {
 IMAGES = {
     "reset": "R.png",
     "mute":"M.png",
-    "up": ("UP.png", "A.png"),
+    "up": ("UP.png", "W.png"),
     "down":("DOWN.png", "S.png"),
     "left":("LEFT.png", "A.png"),
     "right":("RIGHT.png", "D.png"),
