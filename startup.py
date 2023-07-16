@@ -18,6 +18,7 @@ class StartupAnimation:
         self.head_text_surface = self.head_font.render(self.head_text, True, settings.STARTUP_TEXT_COLOR)
         self.body_text_surface = self.body_font.render(self.body_text, True, settings.STARTUP_SUBTEXT_COLOR)
         self.until_index = 0
+        pygame.mixer.music.load(f"{settings.SOUND_DIR}/{settings.STARTUP_KEYBOARD_SOUND}")
 
     def draw(self):
         self.surface.blit(
