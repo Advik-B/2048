@@ -96,6 +96,18 @@ def game_event_processor(event: pygame.event.Event):
             # Mute/unmute the music
             mute_music()
 
+        elif event.key in settings.KEY_BINDINGS["up"]:
+            grid.matrix = grid.logic.move_up()
+
+        elif event.key in settings.KEY_BINDINGS["down"]:
+            grid.matrix = grid.logic.move_down()
+
+        elif event.key in settings.KEY_BINDINGS["left"]:
+            grid.matrix = grid.logic.move_left()
+
+        elif event.key in settings.KEY_BINDINGS["right"]:
+            grid.matrix = grid.logic.move_right()
+
     if event.type == pygame.KEYUP:
 
         if event.key == pygame.K_ESCAPE:
