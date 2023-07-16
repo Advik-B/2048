@@ -1,8 +1,10 @@
-import pygame
-import settings
 import random
-from grid_helper import Grid
 import threading
+
+import pygame
+
+import settings
+from grid_helper import Grid
 
 pygame.init()
 
@@ -18,10 +20,8 @@ if settings.FULLSCREEN and settings.ALLOW_RESIZE:
     args.append(pygame.RESIZABLE)
 SCREEN_RATIO = settings.DISPLAY_SIZE[0] / settings.DISPLAY_SIZE[1]
 
-
 window_surface = pygame.display.set_mode(*args)
 pygame.display.set_caption(settings.WINDOW_TITLE)
-
 
 clock = pygame.time.Clock()
 is_running = True
@@ -48,6 +48,8 @@ grid.matrix = [
     [2, 0, 0, 4]
 ]
 print(grid.matrix)
+
+
 def play_music():
     music = pygame.mixer.Sound("music/lofi.mp3")
     # Get the legnth of the music
@@ -58,12 +60,14 @@ def play_music():
 
     pygame.mixer.music.play(start=random.randint(0, int(music_length)))
 
+
 start_time = pygame.time.get_ticks()
 # grid.move_animate(10, 10, duration=1)
 
 BOUNDING_BOX = pygame.Rect(0, 0, *settings.DISPLAY_SIZE)
 OLD_POS = (0, 0)
 MUSIC_PLAYING = True
+
 
 def game_event_processor(event: pygame.event.Event):
     global is_running
@@ -88,7 +92,6 @@ def game_event_processor(event: pygame.event.Event):
                 pygame.mixer.music.unpause()
                 MUSIC_PLAYING = True
 
-
     if event.type == pygame.KEYUP:
 
         if event.key == pygame.K_UP:
@@ -102,6 +105,7 @@ def game_event_processor(event: pygame.event.Event):
 
         if event.key == pygame.K_ESCAPE:
             is_running = False
+
 
 threading.Thread(target=play_music).run()
 while is_running:
@@ -133,4 +137,3 @@ while is_running:
     grid.draw_on(window_surface)
     grid.update()
     pygame.display.update()
-
