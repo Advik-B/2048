@@ -77,6 +77,8 @@ def mute_music():
         pygame.mixer.music.unpause()
         MUSIC_PLAYING = True
 
+GRID_POS = grid.pos
+
 def game_event_processor(event: pygame.event.Event):
     """
 
@@ -97,18 +99,34 @@ def game_event_processor(event: pygame.event.Event):
             mute_music()
 
         elif event.key in settings.KEY_BINDINGS["up"]:
-            grid.matrix = grid.logic.move_up()
+            grid.move_up()
+            # Animate the movement of the grid using the move_animate method with GRID_POS as the old position
+            # 5 pixel up
+            grid.move_animate(GRID_POS[0], GRID_POS[1] - 5, duration=1)
+
+
 
         elif event.key in settings.KEY_BINDINGS["down"]:
-            grid.matrix = grid.logic.move_down()
+            grid.move_down()
+            # Animate the movement of the grid using the move_animate method with GRID_POS as the old position
+            # 5 pixel down
+            grid.move_animate(GRID_POS[0], GRID_POS[1] + 5, duration=1)
 
         elif event.key in settings.KEY_BINDINGS["left"]:
-            grid.matrix = grid.logic.move_left()
+            grid.move_left()
+            # Animate the movement of the grid using the move_animate method with GRID_POS as the old position
+            # 5 pixel left
+            grid.move_animate(GRID_POS[0] - 5, GRID_POS[1], duration=1)
 
         elif event.key in settings.KEY_BINDINGS["right"]:
-            grid.matrix = grid.logic.move_right()
+            grid.move_right()
+            grid.move_animate(GRID_POS[0] + 5, GRID_POS[1], duration=1)
 
     if event.type == pygame.KEYUP:
+
+        if event.key in settings.KEY_BINDINGS.values():
+            # Animate the grid back to its original position
+            grid.move_animate(GRID_POS[0], GRID_POS[1], duration=1)
 
         if event.key == pygame.K_ESCAPE:
             is_running = False
@@ -140,7 +158,7 @@ while is_running:
 
         game_event_processor(event)
 
-    window_surface.fill((0, 0, 0))
+    window_surface.fill(settings.BACKGROUND_COLOR)
     grid.draw_on(window_surface)
     grid.update()
     pygame.display.update()
