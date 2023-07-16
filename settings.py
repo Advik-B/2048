@@ -67,3 +67,4 @@ CHANCE_OF_SPAWN_NUMBERS = {
     4: 20,
     8: 1,
 }
+
