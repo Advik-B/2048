@@ -8,10 +8,10 @@ game = GameLogic(
         [0, 0, 0, 0]
     ]
 )
-game.place_random_number()
+game.spawn()
 
 for i in range(4):
-    game.place_random_number()
+    game.spawn()
 
 def help_msg():
     print("Welcome to 2048!")
@@ -49,7 +49,7 @@ while True:
         print("Invalid move!")
         continue
 
-    game.place_random_number()
+    game.spawn()
     game.display()
     if game.is_full():
         print("Game over!")
