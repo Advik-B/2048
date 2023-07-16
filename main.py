@@ -98,8 +98,6 @@ while is_running:
                 grid.logic.move_right()
                 print(grid.matrix)
 
-
-
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 grid.move_animate(*OLD_POS, duration=1)
