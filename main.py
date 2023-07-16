@@ -72,6 +72,7 @@ def game_event_processor(event: pygame.event.Event):
 
         elif event.key == pygame.K_r:
             grid.matrix = grid.logic.reset()
+            grid.matrix = grid.logic.spawn()
 
         elif event.key == pygame.K_m:
             # Mute/unmute the audio
@@ -162,7 +163,9 @@ MUSIC_PLAYING = True
 
 GRID_POS = grid.pos
 
-img = pygame.image.load("images/_A.png")
+grid.matrix = grid.logic.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
+grid.matrix = grid.logic.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
+
 while is_running:
     clock.tick(settings.FPS)
     for event in pygame.event.get():
