@@ -33,6 +33,7 @@ STARTUP_SUBTEXT = dedent(
     That Took my bordem away
     """
 )
+CONTROLS_TEXT = "Controls"
 STARTUP_SUBTEXT_FONT = "Averia.ttf"
 STARTUP_TEXT_FONT = "Bungee.ttf"
 STARTUP_KEYBOARD_SOUND = "keyboard.mp3"
@@ -58,6 +59,19 @@ KEY_BINDINGS = {
     "left": [K_LEFT, K_a],
     "right": [K_RIGHT, K_d],
 }
+
+IMAGES = {
+    "reset": "R.png",
+    "mute":"M.png",
+    "up": ("UP.png", "A.png"),
+    "down":("DOWN.png", "S.png"),
+    "left":("LEFT.png", "A.png"),
+    "right":("RIGHT.png", "D.png"),
+    "esc": "ESC.png"
+}
+
+
+
 
 GRID_MOVEMENT_DURATION = 1
 GRID_MOVEMENT_INTENSITY = 20
