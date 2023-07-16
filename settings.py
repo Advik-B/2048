@@ -13,10 +13,10 @@ from pygame.locals import (
 )
 from textwrap import dedent
 
-DISPLAY_SIZE = (600, 1000)
-VSYNC = False
+DISPLAY_SIZE = (1000, 800)
+VSYNC = True
 ALLOW_RESIZE = False
-FULLSCREEN = True
+FULLSCREEN = False
 
 WINDOW_TITLE = '2048 by Advik'
 FPS = 60
