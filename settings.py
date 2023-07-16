@@ -13,7 +13,7 @@ from pygame.locals import (
 )
 from textwrap import dedent
 
-DISPLAY_SIZE = (1000, 800)
+DISPLAY_SIZE = (1000, 750)
 VSYNC = True
 ALLOW_RESIZE = False
 FULLSCREEN = False
