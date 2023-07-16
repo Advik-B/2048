@@ -27,8 +27,8 @@ STARTUP_SUBTEXT = dedent(
     To distract you from your work :)
     """
 )
-STARTUP_SUBTEXT_FONT = "Bunjee.ttf"
-STARTUP_TEXT_FONT = "Bunjee.ttf"
+STARTUP_SUBTEXT_FONT = "Averia.ttf"
+STARTUP_TEXT_FONT = "Bungee.ttf"
 
 FONT_DIR = "fonts"
 
