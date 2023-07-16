@@ -227,7 +227,7 @@ class ControlsHint:
             self.controls_menu,
             (
                 self.pos[0] + self.size[0] / 2 - self.head_text_surface.get_width() / 2 + 150,
-                self.pos[1] + self.size[1] / 2 - self.head_text_surface.get_height() - 200
+                self.pos[1] + self.size[1] / 2 - self.head_text_surface.get_height() - 260
             )
         )
 
