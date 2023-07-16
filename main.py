@@ -36,19 +36,37 @@ def draw_grid(
         color: tuple = (255, 255, 255),
         pos: tuple = (0, 0),
 ):
-    for x in range(grid_size[0]):
-        for y in range(grid_size[1]):
-            pygame.draw.rect(
-                surface,
-                color,
-                (
-                    pos[0] + x * square_size,
-                    pos[1] + y * square_size,
-                    square_size,
-                    square_size,
-                ),
-                line_width,
-            )
+    """
+    The grid is actually invisible, the squares separate the grid lines
+    :param surface: The surface to draw the grid on (usually the window surface)
+    :param grid_size: The size of the grid in squares
+    :param square_size: The size of each square in pixels
+    :param line_width: The width of the grid lines in pixels
+    :param color: The color of the grid lines
+    :param pos: The position of the top left corner of the grid (the bottom right corner is calculated)
+    :return:
+    """
+    pygame.draw.rect(
+        surface, color,
+        (
+            pos[0],
+            pos[1],
+            grid_size[0] * square_size,
+            grid_size[1] * square_size
+        ),
+        line_width
+    )
+
+    for i in range(grid_size[0] - 1):
+        pygame.draw.line(surface, color,
+            (pos[0] + (i + 1) * square_size, pos[1]),
+            (pos[0] + (i + 1) * square_size, pos[1] + grid_size[1] * square_size),
+            line_width)
+    for i in range(grid_size[1] - 1):
+        pygame.draw.line(surface, color,
+            (pos[0], pos[1] + (i + 1) * square_size),
+            (pos[0] + grid_size[0] * square_size, pos[1] + (i + 1) * square_size),
+            line_width)
 
 
 while is_running:
@@ -58,6 +76,6 @@ while is_running:
             is_running = False
 
     window_surface.fill((0, 0, 0))
-    draw_grid(window_surface, (4, 4), 100, 6)
+    draw_grid(window_surface, (4, 4), 100, 6, pos=(100, 100))
     pygame.display.update()
 
