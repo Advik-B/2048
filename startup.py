@@ -66,6 +66,7 @@ if __name__ == "__main__":
     print("This file is not meant to be run directly. Please run main.py instead.")
     pygame.init()
     screen = pygame.display.set_mode(settings.DISPLAY_SIZE, pygame.RESIZABLE)
+    pygame.display.set_caption("Startup Animation")
     startup_animation = StartupAnimation(screen, settings.DISPLAY_SIZE, (0, 0))
     running = True
     while running:
