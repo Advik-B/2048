@@ -150,7 +150,7 @@ class Grid:
             self.game_over = True
 
         # Spawn a new number in a random position (settings.CHANCE_OF_SPAWN)
-        if random.randint(0, 100) >= settings.CHANCE_OF_SPAWN:
+        if random.randint(0, 100) <= settings.CHANCE_OF_SPAWN:
             self.logic.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
         self.update_font()
 
