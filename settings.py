@@ -25,7 +25,6 @@ STARTUP_SUBTEXT = dedent(
     """
     A game by Advik, for Pratibha
     To distract you from your work
-    
     This took a whopping 18 hours to make
     """
 )
