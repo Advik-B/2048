@@ -1,3 +1,2 @@
 pygame
 cython
-pygame_gui
