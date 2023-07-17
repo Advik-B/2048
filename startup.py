@@ -22,6 +22,9 @@ class StartupAnimation:
         pygame.mixer.music.play()
         self.done = False
         self.on_done: callable = on_done
+        self.texts = []
+        for line in settings.STARTUP_SUBTEXT.split("\n"):
+            self.texts.append(line.strip())
 
     def draw(self):
         if self.done:
@@ -45,13 +48,11 @@ class StartupAnimation:
         if self.done:
             return False
         # Animate the typing
-        if self.until_index < len(self.body_text):
+        if self.until_index < len(self.texts):
+            self.body_text_surface = self.body_font.render(self.texts[self.until_index], True, settings.STARTUP_SUBTEXT_COLOR)
             self.until_index += 1
-            self.body_text_surface = self.body_font.render(
-                f"{self.body_text[:self.until_index]}{'_' if self.until_index != len(self.body_text) else ''}",
-                True, settings.STARTUP_SUBTEXT_COLOR
-            )
-            time.sleep(0.1)
+            pygame.mixer.music.play()
+            time.sleep(0.5)
             return True
 
         self.done = True
