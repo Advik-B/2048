@@ -42,6 +42,9 @@ def play_music():
     # Load the audio
     pygame.mixer.music.load("audio/lofi.mp3")
     # Play the audio at a random position
+    # Set the volume to 0.5
+
+    pygame.mixer.music.set_volume(0.1)
 
     pygame.mixer.music.play(start=random.randint(0, int(music_length)))
     MUSIC_PLAYING = True
