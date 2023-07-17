@@ -73,6 +73,8 @@ def game_event_processor(event: pygame.event.Event):
         elif event.key == pygame.K_r:
             grid.matrix = grid.logic.reset()
             grid.matrix = grid.logic.spawn()
+            grid.game_over = False
+            grid.update_font()
 
         elif event.key == pygame.K_m:
             # Mute/unmute the audio
