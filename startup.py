@@ -52,7 +52,7 @@ class StartupAnimation:
             self.body_text_surface = self.body_font.render(self.texts[self.until_index], True, settings.STARTUP_SUBTEXT_COLOR)
             self.until_index += 1
             pygame.mixer.music.play()
-            time.sleep(0.5)
+            time.sleep(1)
             return True
 
         self.done = True
