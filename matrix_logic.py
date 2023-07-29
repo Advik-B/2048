@@ -38,19 +38,50 @@ class GameLogic:
         if self.state_stack:
             self.matrix = self.state_stack.pop()
 
-    def apply_move(self, move_func) -> None:
+    def spawn(self) -> None | list[list[int, int, int, int]]:
         """
-        Apply a move function to the matrix.
+        Place a random number (2 or 4) at an empty location on the board.
         """
+        if self.is_full():
+            return self.matrix
+
         self.save_state()
-        for row in self.matrix:
-            move_func(row)
+
+        while True:
+            row = random.randint(0, 3)
+            col = random.randint(0, 3)
+            if self.matrix[row][col] == 0:
+                self.matrix[row][col] = random.choice([2, 4])
+                break
+
+        return self.matrix
+
+    def spawn_customised(self, chance_of_numbers: dict) -> None | list[list[int, int, int, int]]:
+        """
+        Place a random number (given by chance_of_numbers) at an empty location on the board.
+        :param chance_of_numbers: {2: 90, 4: 10}, {2: 80, 4: 20}, {2: 70, 4: 20, 8: 10} etc.
+        """
+        if self.is_full():
+            return self.matrix
+
+        self.save_state()
+
+        while True:
+            row = random.randint(0, 3)
+            col = random.randint(0, 3)
+            if self.matrix[row][col] == 0:
+                self.matrix[row][col] = random.choices(list(chance_of_numbers.keys()), weights=list(chance_of_numbers.values()))[0]
+                break
+
+        return self.matrix
 
     def move_left(self) -> None:
         """
         Move the numbers to the left and merge adjacent numbers if they are equal.
         """
-        def move_row_left(row):
+        self.save_state()
+
+        for row in self.matrix:
             # Merge numbers if they are equal
             for i in range(3):
                 if row[i] == row[i + 1] and row[i] != 0:
@@ -62,35 +93,46 @@ class GameLogic:
             temp_row += [0] * (4 - len(temp_row))  # Pad with zeros
             row[:] = temp_row
 
-        self.apply_move(move_row_left)
+        return self.matrix
 
     def move_right(self) -> None:
         """
         Move the numbers to the right and merge adjacent numbers if they are equal.
         """
-        def move_row_right(row):
-            # Reverse the row, move left, and reverse back
+        self.save_state()
+
+        # Reverse each row, move left, and reverse back
+        for row in self.matrix:
             row.reverse()
-            self.move_left()
+        self.move_left()
+        for row in self.matrix:
             row.reverse()
 
-        self.apply_move(move_row_right)
+        return self.matrix
 
     def move_up(self) -> None:
         """
         Move the numbers up and merge adjacent numbers if they are equal.
         """
+        self.save_state()
+
+        # Transpose the matrix, move left, and transpose back
         self.transpose()
         self.move_left()
         self.transpose()
+        return self.matrix
 
     def move_down(self) -> None:
         """
         Move the numbers down and merge adjacent numbers if they are equal.
         """
+        self.save_state()
+
+        # Transpose the matrix, move right, and transpose back
         self.transpose()
         self.move_right()
         self.transpose()
+        return self.matrix
 
     def transpose(self) -> None:
         """
@@ -155,15 +197,54 @@ class GameLogic:
 
         return monotonicity_score
 
-    def score(self) -> int:
+    def autoplay(self, priority: str = "score"):
         """
-        Calculate the score for the current board state.
+        AI Autoplay function to make the best move based on the current matrix information.
+        :param priority: The aspect to prioritize - "score" or "space".
         """
-        # First, flatten the matrix into a list
-        flattened_matrix = [num for row in self.matrix for num in row]
-        # Then, make a dictionary of the number of occurrences of each number
-        num_occurrences = {num: flattened_matrix.count(num) for num in flattened_matrix}
-        return sum(num * (value / 2) for num, value in num_occurrences.items())
+        if priority not in ["score", "space"]:
+            raise ValueError("Invalid priority. Use 'score' or 'space'.")
+
+        possible_moves = ['left', 'right', 'up', 'down']
+        max_score = float('-inf')
+        best_move = None
+
+        # Save the current state before making any moves
+        self.save_state()
+
+        for move in possible_moves:
+            # Make the move and get the resulting matrix
+            if move == 'left':
+                self.move_left()
+            elif move == 'right':
+                self.move_right()
+            elif move == 'up':
+                self.move_up()
+            elif move == 'down':
+                self.move_down()
+
+            # Calculate the score for this move using the advanced heuristic function
+            score = self.calculate_heuristic_score(priority)
+
+            # Undo the move to revert the matrix back to the original state
+            self.undo()
+
+            # Update the best move if the score is higher
+            if score > max_score:
+                max_score = score
+                best_move = move
+
+        # Make the best move
+        if best_move == 'left':
+            self.move_left()
+        elif best_move == 'right':
+            self.move_right()
+        elif best_move == 'up':
+            self.move_up()
+        elif best_move == 'down':
+            self.move_down()
+
+        return self.matrix, best_move
 
     def calculate_heuristic_score(self, priority: str) -> float:
         """
@@ -205,72 +286,3 @@ class GameLogic:
             + space_weight  # Add score_weight component based on priority
             * empty_cells_score  # Add space_weight component based on priority
         )
-
-    def autoplay(self, priority: str = "score"):
-        """
-        AI Autoplay function to make the best move based on the current matrix information.
-        :param priority: The aspect to prioritize - "score" or "space".
-        """
-        if priority not in ["score", "space"]:
-            raise ValueError("Invalid priority. Use 'score' or 'space'.")
-
-        possible_moves = ['left', 'right', 'up', 'down']
-        max_score = float('-inf')
-        best_move = None
-
-        # Save the current state before making any moves
-        # self.save_state() # Not needed because it will take up undo stack space
-
-        for move in possible_moves:
-            # Make the move and get the resulting matrix
-            self.apply_move(move)
-
-            # Calculate the score for this move using the advanced heuristic function
-            score = self.calculate_heuristic_score(priority)
-
-            # Undo the move to revert the matrix back to the original state
-            self.undo()
-
-            # Update the best move if the score is higher
-            if score > max_score:
-                max_score = score
-                best_move = move
-
-        # Make the best move
-        self.apply_move(best_move)
-        # Return the best move direction and the score
-        return best_move
-
-
-    def spawn_customised(self, chance_of_numbers: dict) -> None | list[list[int, int, int, int]]:
-        """
-        Place a random number (given by chance_of_numbers) at an empty location on the board.
-        :param chance_of_numbers: {2: 90, 4: 10}, {2: 80, 4: 20}, {2: 70, 4: 20, 8: 10} etc.
-        """
-        if self.is_full():
-            return self.matrix
-
-        while True:
-            row = random.randint(0, 3)
-            col = random.randint(0, 3)
-            if self.matrix[row][col] == 0:
-                self.matrix[row][col] = random.choices(list(chance_of_numbers.keys()), weights=list(chance_of_numbers.values()))[0]
-                break
-
-        return self.matrix
-
-    def spawn(self) -> None | list[list[int, int, int, int]]:
-        """
-        Place a random number (2 or 4) at an empty location on the board.
-        """
-        if self.is_full():
-            return self.matrix
-
-        while True:
-            row = random.randint(0, 3)
-            col = random.randint(0, 3)
-            if self.matrix[row][col] == 0:
-                self.matrix[row][col] = random.choices([2, 4], weights=[90, 10])[0]
-                break
-
-        return self.matrix
