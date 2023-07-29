@@ -9,7 +9,6 @@ game = GameLogic(
         [0, 0, 0, 0]
     ]
 )
-game.spawn()
 
 for i in range(4):
     game.spawn()
