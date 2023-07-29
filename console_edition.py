@@ -42,6 +42,8 @@ while True:
         game.move_down()
     elif move == "r":
         game.move_right()
+    elif move == "a":
+        game.autoplay()
     elif move == "h":
         help_msg()
         continue
