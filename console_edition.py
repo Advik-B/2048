@@ -1,3 +1,4 @@
+import settings
 from matrix_logic import GameLogic
 
 game = GameLogic(
@@ -43,7 +44,8 @@ while True:
     elif move == "r":
         game.move_right()
     elif move == "a":
-        game.autoplay()
+        result = game.autoplay(priority="space")
+        print(f"Autoplay: {result[-1]}")
     elif move == "h":
         help_msg()
         continue
@@ -51,7 +53,7 @@ while True:
         print("Invalid move!")
         continue
 
-    game.spawn()
+    game.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
     game.display()
     if game.is_full():
         print("Game over!")
