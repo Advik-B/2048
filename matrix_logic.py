@@ -196,17 +196,15 @@ class GameLogic:
         # Max tile score
         max_tile_score = max(max(row) for row in self.matrix)
 
-        # Calculate the final score using the weighted sum of heuristic components
-        score = (
-            smoothness_weight * smoothness_score +
-            monotonicity_weight * monotonicity_score +
-            empty_cells_weight * empty_cells_score +
-            max_tile_weight * max_tile_score +
-            score_weight * max_tile_score +  # Add score_weight component based on priority
-            space_weight * empty_cells_score  # Add space_weight component based on priority
+        return (
+            smoothness_weight * smoothness_score
+            + monotonicity_weight * monotonicity_score
+            + empty_cells_weight * empty_cells_score
+            + max_tile_weight * max_tile_score
+            + score_weight * max_tile_score
+            + space_weight  # Add score_weight component based on priority
+            * empty_cells_score  # Add space_weight component based on priority
         )
-
-        return score
 
     def autoplay(self, priority: str = "score") -> None:
         """
@@ -225,7 +223,7 @@ class GameLogic:
 
         for move in possible_moves:
             # Make the move and get the resulting matrix
-            getattr(self, f"move_{move}")()
+            self.apply_move(move)
 
             # Calculate the score for this move using the advanced heuristic function
             score = self.calculate_heuristic_score(priority)
@@ -239,7 +237,10 @@ class GameLogic:
                 best_move = move
 
         # Make the best move
-        getattr(self, f"move_{best_move}")()
+        self.apply_move(best_move)
+
+        # Save the state with the best move
+        self.save_state()
 
     def spawn_customised(self, chance_of_numbers: dict) -> None | list[list[int, int, int, int]]:
         """
