@@ -1,6 +1,7 @@
 import settings
 from matrix_logic import GameLogic
 from copy import deepcopy
+from alive_progress import alive_bar
 
 game = GameLogic(
     matrix=[
@@ -64,25 +65,27 @@ def play_against_myself():
     max_same_choices = 100 # The higher this number, the more the game will try to make the same move over and over again.
     max_attempts = 100
     scores: dict[int, list[list[int, int, int, int]]] = {}
-    for i in range(max_attempts):
-        while len(auto_play_choices) < max_same_choices or any(
-            auto_play_choices[-1] != x
-            for x in auto_play_choices[-max_same_choices:]
-        ):
-            game.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
+    with alive_bar(max_attempts) as bar:
+        for i in range(max_attempts):
+            while len(auto_play_choices) < max_same_choices or any(
+                auto_play_choices[-1] != x
+                for x in auto_play_choices[-max_same_choices:]
+            ):
+                game.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
+                # game.display()
+
+
+                result = game.autoplay(priority=settings.AUTOPLAY_PRIORITY)
+                auto_play_choices.append(result[-1])
+
+            # print(f"Attempt {i+1} over!")
+            # print(f"Score: {game.score()}")
+            scores[game.score()] = deepcopy(game.matrix)
             # game.display()
-
-
-            result = game.autoplay(priority=settings.AUTOPLAY_PRIORITY)
-            auto_play_choices.append(result[-1])
-
-        print(f"Attempt {i+1} over!")
-        # print(f"Score: {game.score()}")
-        scores[game.score()] = deepcopy(game.matrix)
-        # game.display()
-        game.reset()
-        game.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
-        auto_play_choices = []
+            game.reset()
+            bar()
+            game.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
+            auto_play_choices = []
 
     # print("Scores:")
     # for score, matrix in scores.items():
@@ -97,10 +100,14 @@ def play_against_myself():
 
 
 def display_matrix(matrix):
+    final_width = 4 * len(matrix[0]) + 1
+    print(f"{'='*final_width:4}")
     for row in matrix:
-        for num in row:
-            print(num, end="\t")
+        for element in row:
+            print(f"{element:4}", end="")
         print()
+    print(f"{'='*final_width:4}")
+
 
 
 if __name__ == "__main__":
