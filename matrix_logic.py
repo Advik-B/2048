@@ -238,6 +238,8 @@ class GameLogic:
 
         # Make the best move
         self.apply_move(best_move)
+        # Return the best move direction and the score
+        return best_move
 
 
     def spawn_customised(self, chance_of_numbers: dict) -> None | list[list[int, int, int, int]]:
