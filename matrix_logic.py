@@ -209,9 +209,6 @@ class GameLogic:
         max_score = float('-inf')
         best_move = None
 
-        # Save the current state before making any moves
-        self.save_state()
-
         for move in possible_moves:
             # Make the move and get the resulting matrix
             if move == 'left':
@@ -286,3 +283,13 @@ class GameLogic:
             + space_weight  # Add score_weight component based on priority
             * empty_cells_score  # Add space_weight component based on priority
         )
+
+    def score(self) -> int:
+        """
+        Calculate the score for the current board state.
+        """
+        # First, flatten the matrix into a list
+        flattened_matrix = [num for row in self.matrix for num in row]
+        # Then, make a dictionary of the number of occurrences of each number
+        num_occurrences = {num: flattened_matrix.count(num) for num in flattened_matrix}
+        return sum(num * (value / 2) for num, value in num_occurrences.items())
