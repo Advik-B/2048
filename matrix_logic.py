@@ -240,3 +240,36 @@ class GameLogic:
 
         # Make the best move
         getattr(self, f"move_{best_move}")()
+
+    def spawn_customised(self, chance_of_numbers: dict) -> None | list[list[int, int, int, int]]:
+        """
+        Place a random number (given by chance_of_numbers) at an empty location on the board.
+        :param chance_of_numbers: {2: 90, 4: 10}, {2: 80, 4: 20}, {2: 70, 4: 20, 8: 10} etc.
+        """
+        if self.is_full():
+            return self.matrix
+
+        while True:
+            row = random.randint(0, 3)
+            col = random.randint(0, 3)
+            if self.matrix[row][col] == 0:
+                self.matrix[row][col] = random.choices(list(chance_of_numbers.keys()), weights=list(chance_of_numbers.values()))[0]
+                break
+
+        return self.matrix
+
+    def spawn(self) -> None | list[list[int, int, int, int]]:
+        """
+        Place a random number (2 or 4) at an empty location on the board.
+        """
+        if self.is_full():
+            return self.matrix
+
+        while True:
+            row = random.randint(0, 3)
+            col = random.randint(0, 3)
+            if self.matrix[row][col] == 0:
+                self.matrix[row][col] = random.choices([2, 4], weights=[90, 10])[0]
+                break
+
+        return self.matrix
