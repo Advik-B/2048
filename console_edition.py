@@ -63,7 +63,7 @@ def main():
 def play_against_myself():
     auto_play_choices = []
     max_same_choices = 50 # The higher this number, the more the game will try to make the same move over and over again.
-    max_attempts = 1000
+    max_attempts = 10000
     scores: dict[int, list[list[int, int, int, int]]] = {}
     with alive_bar(max_attempts) as bar:
         for _ in range(max_attempts):
@@ -98,6 +98,9 @@ def play_against_myself():
     print()
     print(f"Best Score: {best_score}")
     display_matrix(scores[best_score])
+    print(len(scores.keys()))
+    # Trim the scores dict to only contain the best scores
+    # This is done to reduce the size of the scores dict, which will save memory
 
 
 def display_matrix(matrix):
