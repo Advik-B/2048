@@ -146,8 +146,10 @@ def display_matrix(matrix):
 
 
 if __name__ == "__main__":
+    global game_running
     # main()
     try:
         play_against_myself()
     except KeyboardInterrupt:
+        game_running = False
         exit(0)
