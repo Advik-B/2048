@@ -206,7 +206,7 @@ class GameLogic:
             * empty_cells_score  # Add space_weight component based on priority
         )
 
-    def autoplay(self, priority: str = "score") -> None:
+    def autoplay(self, priority: str = "score"):
         """
         AI Autoplay function to make the best move based on the current matrix information.
         :param priority: The aspect to prioritize - "score" or "space".
