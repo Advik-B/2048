@@ -39,6 +39,7 @@ class Grid:
         self.game_over = False
         self.enabled = False
         self.surface = surface
+        self.autoplay = False
 
     def draw(self):
         if not self.enabled:
@@ -119,6 +120,7 @@ class Grid:
         """
         if not self.enabled:
             return
+
         if self.pos != self.goto:
             time_delta = pygame.time.get_ticks() - self.start_time
             if time_delta > self.duration:
