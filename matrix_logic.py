@@ -292,4 +292,4 @@ class GameLogic:
         flattened_matrix = [num for row in self.matrix for num in row]
         # Then, make a dictionary of the number of occurrences of each number
         num_occurrences = {num: flattened_matrix.count(num) for num in flattened_matrix}
-        return sum(num * (value / 2) for num, value in num_occurrences.items())
+        return sum(num * value for num, value in num_occurrences.items())
