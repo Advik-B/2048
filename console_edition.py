@@ -2,6 +2,8 @@ import settings
 from matrix_logic import GameLogic
 from copy import deepcopy
 from alive_progress import alive_bar
+from time import sleep
+from threading import Thread
 
 game = GameLogic(
     matrix=[
@@ -61,10 +63,37 @@ def main():
             break
 
 def play_against_myself():
+    global auto_play_choices, scores_size_limit, game_running, scores
     auto_play_choices = []
     max_same_choices = 50 # The higher this number, the more the game will try to make the same move over and over again.
     max_attempts = 10000
-    scores: dict[int, list[list[int, int, int, int]]] = {}
+    game_running = True
+    scores_size_limit = 100
+    # scores: dict[int, list[list[int, int, int, int]]] = {}
+    scores = {}
+    def max_attempts_background_cleanup():
+        global scores_size_limit
+        global game_running
+        global scores
+        while game_running:
+            if len(scores) > scores_size_limit:
+                # Trim the scores dict to only the top MAX_ATTEMPTS scores
+                scores = dict(sorted(scores.items(), key=lambda x: x[0], reverse=True)[:scores_size_limit])
+                # print(f"Chopped scores to {len(scores)}")
+                sleep(1)
+                continue
+
+            else:
+                # print(f"Current scores: {len(scores)}")
+                sleep(1)
+                continue
+
+
+
+    background_thread = Thread(target=max_attempts_background_cleanup)
+    background_thread.daemon = True
+    background_thread.start()
+
     with alive_bar(max_attempts) as bar:
         for _ in range(max_attempts):
             while len(auto_play_choices) < max_same_choices or any(
@@ -99,6 +128,8 @@ def play_against_myself():
     print(f"Best Score: {best_score}")
     display_matrix(scores[best_score])
     print(len(scores.keys()))
+    game_running = False
+    background_thread.join()
     # Trim the scores dict to only contain the best scores
     # This is done to reduce the size of the scores dict, which will save memory
 
@@ -116,4 +147,7 @@ def display_matrix(matrix):
 
 if __name__ == "__main__":
     # main()
-    play_against_myself()
+    try:
+        play_against_myself()
+    except KeyboardInterrupt:
+        exit(0)
