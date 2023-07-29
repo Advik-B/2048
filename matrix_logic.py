@@ -219,7 +219,7 @@ class GameLogic:
         best_move = None
 
         # Save the current state before making any moves
-        self.save_state()
+        # self.save_state() # Not needed because it will take up undo stack space
 
         for move in possible_moves:
             # Make the move and get the resulting matrix
@@ -239,8 +239,6 @@ class GameLogic:
         # Make the best move
         self.apply_move(best_move)
 
-        # Save the state with the best move
-        self.save_state()
 
     def spawn_customised(self, chance_of_numbers: dict) -> None | list[list[int, int, int, int]]:
         """
