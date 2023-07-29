@@ -44,7 +44,7 @@ while True:
         game.move_right()
     elif move == "a":
         result = game.autoplay(priority="space")
-        print(f"Autoplay: {result[-1]}")
+        print(f"Autoplay: {result}")
     elif move == "h":
         help_msg()
         continue
