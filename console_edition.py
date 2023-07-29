@@ -62,11 +62,11 @@ def main():
 
 def play_against_myself():
     auto_play_choices = []
-    max_same_choices = 100 # The higher this number, the more the game will try to make the same move over and over again.
-    max_attempts = 100
+    max_same_choices = 50 # The higher this number, the more the game will try to make the same move over and over again.
+    max_attempts = 1000
     scores: dict[int, list[list[int, int, int, int]]] = {}
     with alive_bar(max_attempts) as bar:
-        for i in range(max_attempts):
+        for _ in range(max_attempts):
             while len(auto_play_choices) < max_same_choices or any(
                 auto_play_choices[-1] != x
                 for x in auto_play_choices[-max_same_choices:]
@@ -78,7 +78,7 @@ def play_against_myself():
                 result = game.autoplay(priority=settings.AUTOPLAY_PRIORITY)
                 auto_play_choices.append(result[-1])
 
-            # print(f"Attempt {i+1} over!")
+            # print(f"Attempt {_+1} over!")
             # print(f"Score: {game.score()}")
             scores[game.score()] = deepcopy(game.matrix)
             # game.display()
@@ -93,8 +93,9 @@ def play_against_myself():
     #     display_matrix(matrix)
     #     print()
 
-    print("="*80)
+    # print("="*80)
     best_score = max(scores.keys())
+    print()
     print(f"Best Score: {best_score}")
     display_matrix(scores[best_score])
 
