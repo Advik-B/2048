@@ -122,6 +122,8 @@ def game_event_processor(event: pygame.event.Event):
                 GRID_POS[1], duration=settings.GRID_MOVEMENT_DURATION
             )
 
+
+
     if event.type == pygame.KEYUP:
 
         FLATTENED_KEY_BINDINGS = [item for sublist in list(settings.KEY_BINDINGS.values()) for item in sublist]
@@ -145,12 +147,12 @@ grid = Grid(
     surface=window_surface,
 )
 
-startup_animation = StartupAnimation(
-    window_surface,
-    settings.DISPLAY_SIZE,
-    pos=(0, 0),
-    on_done=play_music,
-)
+# startup_animation = StartupAnimation(
+#     window_surface,
+#     settings.DISPLAY_SIZE,
+#     pos=(0, 0),
+#     on_done=play_music,
+# )
 
 controls_hint = ControlsHint(
     window_surface,
@@ -170,6 +172,9 @@ GRID_POS = grid.pos
 
 grid.matrix = grid.logic.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
 grid.matrix = grid.logic.spawn_customised(settings.CHANCE_OF_SPAWN_NUMBERS)
+
+# TODO: Remove this in the release (and re-enable the startup animation)
+play_music()
 
 while is_running:
     clock.tick(settings.FPS)
@@ -200,11 +205,11 @@ while is_running:
     window_surface.fill(settings.BACKGROUND_COLOR)
 
     grid.update()
-    startup_animation.update()
+    # startup_animation.update()
     controls_hint.update()
 
     grid.draw()
     controls_hint.draw()
-    startup_animation.draw()
+    # startup_animation.draw()
 
     pygame.display.update()

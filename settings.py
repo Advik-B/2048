@@ -28,6 +28,7 @@ STARTUP_SUBTEXT = dedent(
     This took a whopping 18 hours to make
     """
 )
+AUTOPLAY_PRIORITY = "space"
 # STARTUP_SUBTEXT = dedent(
 #     """
 #     A stupid ass game
